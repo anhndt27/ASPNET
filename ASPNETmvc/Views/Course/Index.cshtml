@@ -1,0 +1,78 @@
+﻿@model EnrollmentViewModel
+
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@{
+    Html.RenderPartial("_modalPopup");
+}
+@*@Html.Partial("_modalPopup")*@
+<h1>List Cource</h1>
+<p>
+    <a class="btn-outline-primary btn-sm" asp-action="Create">Create New Course</a>
+</p>
+<hr>
+
+
+<table id="myTable" class="table table-info table-striped">
+    <thead class="table-dark" style="color: white">
+    <tr>
+        <th>
+            ID
+        </th>
+        <th>
+            Title
+        </th>
+        <th>
+            Credits
+        </th>
+        <th>
+            Student
+        </th>
+        <th></th>
+    </tr>
+
+    </thead>
+    <tbody>
+    @foreach (var item in Model.courseViewModel)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Credits)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student)
+            </td>
+            <td>
+                <a class="btn-outline-success btn-sm" href="/Enrollment/AddNewStudent/@item.Id">Add student</a> |
+                <a class="btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a class="btn-outline-primary btn-sm" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a class="btn-outline-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">Delete</a>|
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+<div class="row">
+    <a class="btn btn-primary btn-sm" data-mdb-toggle="modal" data-mdb-target="#exampleModal">Match Course & Student </a>
+</div>
+
+
+@section Scripts{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+    </script>
+}

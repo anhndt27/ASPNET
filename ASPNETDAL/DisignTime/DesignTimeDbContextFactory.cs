@@ -18,7 +18,7 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<Context.Ap
 
         IConfigurationRoot config = builder.Build();
 
-        string connectionString = config.GetConnectionString("CleanArchitectureIdentity");
+        string connectionString = config.GetConnectionString("DbContextConnection");
 
         Console.WriteLine($"DesignTimeDbContextFactory: using base path = {path}");
         Console.WriteLine($"DesignTimeDbContextFactory: using connection string = {connectionString}");

@@ -1,42 +1,31 @@
+using ASPNETBLL.DTOs.Mapper;
+using ASPNETBLL.Extentions;
+using ASPNETBLL.Interface;
+using ASPNETBLL.Services;
 using ASPNETDAL.Context;
+using ASPNETDAL.Entities;
+using ASPNETmvc;
 using ASPNETmvc.ErrorExtentions;
 using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("AppDbContextConnection") ?? throw new InvalidOperationException("Connection string 'AppDbContextConnection' not found.");
-
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
-
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppDbContext>();
-builder.Services.AddControllersWithViews();
-
-/*var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-// Add services to the container.
-
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(connectionString));*/
-
-/*builder.Services.AddDbContext<AppDbContext>(
-    options =>
-        options.UseSqlServer(builder.
-            Configuration.GetConnectionString("ContextConnection"),
-            x => x.MigrationsAssembly("ASPNETDAL")));*/
 
 builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
     .AddNegotiate();
-
 builder.Services.AddAuthorization(options =>
 {
     // By default, all incoming requests will be authorized according to the default policy.
     options.FallbackPolicy = options.DefaultPolicy;
 });
 builder.Services.AddRazorPages();
-
+builder.Services.AddControllersWithViews();
+builder.Services.AddAutoMapper(c => c.AddProfile<MapCourseProfile>(), typeof(Program));
+builder.Services.AddServices();
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+/*// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error404");
@@ -53,7 +42,7 @@ app.Use(async (context, next) =>
         context.Response.Redirect("/Home/Error404");
         context.Response.ContentLength = 0;
     }
-});
+});*/
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -64,5 +53,5 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
+app.MapRazorPages();
 app.Run();

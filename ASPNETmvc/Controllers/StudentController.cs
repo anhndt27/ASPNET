@@ -14,7 +14,7 @@ public class StudentController : Controller
     public readonly IMapper _mapper;
 
     // GET
-    [HttpGet("/Student/Index")]
+    //[HttpGet("/Student/Index")]
     public async Task<IActionResult> Index(SortFilterPageOptions options, bool deleteFlag = false)
     {
         if (deleteFlag) ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Success, message: "remove Student success");

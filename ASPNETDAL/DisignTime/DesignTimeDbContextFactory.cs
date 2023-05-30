@@ -1,3 +1,4 @@
+using ASPNETDAL.StaticGlobal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -18,20 +19,20 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<Context.Ap
 
         IConfigurationRoot config = builder.Build();
 
-        string connectionString = config.GetConnectionString("DbContextConnection");
+        GetConnectionString.ConnectionString = config.GetConnectionString("DbContextConnection");
 
         Console.WriteLine($"DesignTimeDbContextFactory: using base path = {path}");
-        Console.WriteLine($"DesignTimeDbContextFactory: using connection string = {connectionString}");
+        Console.WriteLine($"DesignTimeDbContextFactory: using connection string = { GetConnectionString.ConnectionString}");
 
-        if (string.IsNullOrWhiteSpace(connectionString))
+        if (string.IsNullOrWhiteSpace( GetConnectionString.ConnectionString))
         {
-            throw new InvalidOperationException("Could not find connection string named 'CleanArchitectureIdentity'");
+            throw new InvalidOperationException("Could not find connection string named 'DbContextConnection'");
         }
 
         DbContextOptionsBuilder<AppDbContext> dbContextOptionsBuilder =
             new DbContextOptionsBuilder<AppDbContext>();
 
-        AppDbContext.AddBaseOptions(dbContextOptionsBuilder, connectionString);
+        AppDbContext.AddBaseOptions(dbContextOptionsBuilder,  GetConnectionString.ConnectionString);
 
         return new AppDbContext(dbContextOptionsBuilder.Options);
     }

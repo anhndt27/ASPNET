@@ -31,21 +31,21 @@ builder.Services.AddAuthorization(options =>
 });
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
-builder.Services.AddAutoMapper(c => c.AddProfile<MapCourseProfile>(), typeof(Program));
 builder.Services.AddServices();
+builder.Services.AddMapper();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    //app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
-/*app.UseErrorLogging();
-app.Use(async (context, next) =>
+//app.UseErrorLogging();
+/*app.Use(async (context, next) =>
 {
     await next();
 

@@ -1,4 +1,3 @@
-using ASPNETBLL.Concrete;
 using ASPNETBLL.DTOs.Filter;
 using ASPNETBLL.DTOs.StudentQueryDto;
 using ASPNETBLL.Interface;
@@ -38,11 +37,41 @@ public class StudentServices : IStudentServices
         
     }
 
-    public async Task<IEnumerable<StudentDto>> GetListSortAsync(SortFilterPageOptions options)
+    public Task<IEnumerable<StudentDto>> GetListAsync(string sortOrder,string searchString,string currentFilter,int? pageNumber)
     {
-        var listService = new ListStudentServices(_context);
-        var listStudent = await listService.SortFilterPage(options).ToListAsync();
-        return listStudent.ToList();
+        try
+        {
+            var students = from s in _context.Students select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                students = students.Where(s => s.StudentName.Contains(searchString)
+                                               || s.StudentCode.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    students = students.OrderByDescending(s => s.StudentName);
+                    break;
+                case "Code":
+                    students = students.OrderBy(s => s.StudentCode);
+                    break;
+                case "code_desc":
+                    students = students.OrderByDescending(s => s.StudentCode);
+                    break;
+                default:
+                    students = students.OrderBy(s => s.StudentCode);
+                    break;
+            }
+            var listStudent = students.AsNoTracking();
+            var res = _mapper.Map<IEnumerable<StudentDto>>(listStudent);
+           
+            return Task.FromResult(res);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public async Task<StudentDto> GetByIdAsync(int? id)

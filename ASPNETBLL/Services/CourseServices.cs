@@ -9,17 +9,18 @@ namespace ASPNETBLL.Services;
 
 public class CourseServices : ICourseServices
 {
-     private readonly AppDbContext _context;
-        private readonly IMapper _mapper;
+    private readonly AppDbContext _context;
+    private readonly IMapper _mapper;
 
-        public CourseServices(AppDbContext context, IMapper mapper)
-        {
-            _context = context;
+    public CourseServices(AppDbContext context, IMapper mapper)
+    {
+        _context = context;
+        _mapper = mapper;
+    }
 
-            _mapper = mapper;
-        }
-
-        public async Task<bool> AddAsync(CourseRequestDto entity)
+    public async Task<bool> AddAsync(CourseRequestDto entity)
+    {
+        try
         {
             var course = _mapper.Map<Course>(entity);
             var res = _context.Courses.Add(course);
@@ -31,27 +32,49 @@ public class CourseServices : ICourseServices
 
             return false;
         }
-
-        /// <summary>
-        /// Get All Course and student
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public async Task<IEnumerable<CourseDto>> GetListCourseStudentAsync()
+        catch (Exception e)
         {
-            var res = _context.Courses.AsNoTracking().MapListCouresDto();
-            return res.ToList();
+            Console.WriteLine(e);
+            throw;
         }
+    }
 
-        public async Task<IEnumerable<CourseDto>> GetByIdAsync(int? id)
+    /// <summary>
+    /// Get All Course and student
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public Task<IEnumerable<CourseDto>> GetListCourseStudentAsync()
+    {
+        try
         {
             var res = _context.Courses.AsNoTracking().MapListCouresDto();
+            return Task.FromResult<IEnumerable<CourseDto>>(res.ToList());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 
-            /*.Where(e => e.ID == id);*/
+    public async Task<IEnumerable<CourseDto>> GetByIdAsync(int? id)
+    {
+        try
+        {
+            var res = _context.Courses.AsNoTracking().MapListCouresDto();
             return res.Where(e => e.Id == id);
         }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 
-        public async Task<bool> UpdateAsync(CourseRequestDto entity)
+    public async Task<bool> UpdateAsync(CourseRequestDto entity)
+    {
+        try
         {
             var course = _mapper.Map<Course>(entity);
             var res = _context.Courses.Update(course);
@@ -59,14 +82,31 @@ public class CourseServices : ICourseServices
             if (res != null) return true;
             else return false;
         }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 
-        public async Task<CourseRequestDto> FindById(int? id)
+    public async Task<CourseRequestDto> FindById(int? id)
+    {
+        try
         {
             var res = await _context.Courses.FindAsync(id);
-            return _mapper.Map<CourseRequestDto>(res);
+            var courseDto = _mapper.Map<CourseRequestDto>(res);
+            return courseDto;
         }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 
-        public async Task<bool> DeleteAsync(CourseRequestDto entity)
+    public async Task<bool> DeleteAsync(CourseRequestDto entity)
+    {
+        try
         {
             var course = _mapper.Map<Course>(entity);
             var res = _context.Courses.Remove(course);
@@ -74,4 +114,10 @@ public class CourseServices : ICourseServices
             if (res != null) return true;
             return false;
         }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }

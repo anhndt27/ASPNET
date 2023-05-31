@@ -1,17 +1,30 @@
+using AutoMapper;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+
 namespace ASPNETBLL.DTOs.Filter;
 
-public static class Paging
+public class Paging<T> : List<T>
 {
-    public static IQueryable<T> Page<T>(this IQueryable<T> query, int pageNumZeroStart, int pageSize)
+    public int PageIndex { get; private set; }
+    public int TotalPages { get; private set; }
+
+    public Paging(List<T> items, int count, int pageIndex, int pageSize)
     {
-        if (pageSize == 0)
-            throw new ArgumentOutOfRangeException
-                (nameof(pageSize), "pageSize cannot be zero.");
+        PageIndex = pageIndex;
+        TotalPages = (int)Math.Ceiling(count / (double)pageSize);
 
-        if (pageNumZeroStart != 0)
-            query = query
-                .Skip(pageNumZeroStart * pageSize);    //#A
+        this.AddRange(items);
+    }
 
-        return query.Take(pageSize);
+    public bool HasPreviousPage => PageIndex > 1;
+
+    public bool HasNextPage => PageIndex < TotalPages;
+
+    public static async Task<Paging<T>> CreateAsync(IEnumerable<T> source, int pageIndex, int pageSize)
+    {
+        var count =  source.Count();
+        var items =  source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+        return new Paging<T>(items, count, pageIndex, pageSize);
     }
 }

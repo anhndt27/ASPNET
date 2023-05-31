@@ -11,15 +11,40 @@ public class StudentController : Controller
 {
     public readonly IStudentServices _studentService;
 
-    public readonly IMapper _mapper;
-
+    public StudentController(IStudentServices studentService)
+    {
+        _studentService = studentService;
+    }
     // GET
     //[HttpGet("/Student/Index")]
-    public async Task<IActionResult> Index(SortFilterPageOptions options, bool deleteFlag = false)
+    public async Task<IActionResult> Index(string sortOrder,string searchString,string currentFilter,int? pageNumber, bool deleteFlag = false)
     {
-        if (deleteFlag) ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Success, message: "remove Student success");
-        var res = await _studentService.GetListSortAsync(options);
-        return View(res);
+        try
+        {
+            if (deleteFlag) ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Success, message: "Remove student success!");
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["CodeSortParm"] = sortOrder == "Code" ? "code_desc" : "Code";
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewData["CurrentFilter"] = searchString;
+            //var listService = new ListStudentServices(_context);
+            var res = await _studentService.GetListAsync(sortOrder,searchString,currentFilter,pageNumber);
+            int pageSize = 5;
+            var resault =await Paging<StudentDto>.CreateAsync(res,pageNumber ?? 1, pageSize);
+            return View(resault);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     // GET: UserManagerController/Details/5
@@ -80,11 +105,11 @@ public class StudentController : Controller
             else ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Danger, "Unknown error");
             //return RedirectToAction(nameof(Index));
         }
-        catch
-
+        catch (Exception e)
         {
             ModelState.AddModelError("",
                 "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+            Console.WriteLine(e);
         }
 
         return View();

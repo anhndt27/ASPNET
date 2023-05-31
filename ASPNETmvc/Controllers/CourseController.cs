@@ -21,29 +21,61 @@ public class CourseController : Controller
     // GET: CourseController
     public async Task<IActionResult> Index(bool deleteFlag = false)
     {
-        if (deleteFlag) ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Success, message: " remove Course");
-        var courseList = await _courseServices.GetListCourseStudentAsync();
-        var courseViewModel = new CourseDto();
-        var enrollViewModel = new CourseRequestDto();
-        var viewmodel = new EnrollmentViewModel()
+        try
         {
-            courseViewModel = courseList,
-            enrollViewModel = new EnrollmentCreateDto()
-        };
-        return View(viewmodel);
+            if (deleteFlag)
+                ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Success, message: "Remove Course successful!");
+            var courseList = await _courseServices.GetListCourseStudentAsync();
+            var courseViewModel = new CourseDto();
+            var enrollViewModel = new CourseRequestDto();
+            var viewmodel = new EnrollmentViewModel()
+            {
+                courseViewModel = courseList,
+                enrollViewModel = new EnrollmentCreateDto()
+            };
+            return View(viewmodel);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Danger, message: "Can't show all course, error out!");
+            return View();
+
+            //throw;
+        }
+
+        return View();
     }
 
     // GET: CourseController/Details/5
     public async Task<IActionResult> Details(int id)
     {
-        var res = await _courseServices.GetByIdAsync(id);
-        return View(res);
+        try
+        {
+            var res = await _courseServices.GetByIdAsync(id);
+            return View(res);
+        }
+        catch (Exception e)
+        {
+            ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Danger, message: "Can't find course, error out!");
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     // GET: CourseController/Create
     public async Task<IActionResult> Create()
     {
-        return View(new CourseRequestDto());
+        try
+        {
+            return View(new CourseRequestDto());
+        }
+        catch (Exception e)
+        {
+            ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Danger, message: "Can't create new course, error out!");
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     // POST: CourseController/Create
@@ -63,9 +95,11 @@ public class CourseController : Controller
                 //return RedirectToAction(nameof(Index));
             }
         }
-        catch
+        catch (Exception e)
         {
-            return View();
+            ModelState.AddModelError("",
+                "Unable to save changes. Try again!");
+            Console.WriteLine(e);
         }
 
         return View(entity);
@@ -95,10 +129,11 @@ public class CourseController : Controller
                 //return RedirectToAction(nameof(Index));
             }
         }
-        catch
+        catch (Exception e)
         {
             ModelState.AddModelError("",
                 "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+            Console.WriteLine(e);
         }
 
         return View(entity);
@@ -122,10 +157,11 @@ public class CourseController : Controller
             {
                 return RedirectToAction(nameof(Index), new { deleteFlag = true });
             }
-            else ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Danger, "Remove faile");
+            else ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Danger, "Remove fail!");
         }
-        catch
+        catch (Exception e)
         {
+            Console.WriteLine(e);
             return View();
         }
 

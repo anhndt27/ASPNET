@@ -16,13 +16,18 @@
     <a class="btn-outline-primary btn-sm" asp-action="Create">Create New Course</a>
 </p>
 <hr>
-
-
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            @Html.Raw(@ViewBag.Alert)
+        </div>
+    </div>
+</div>
 <table id="myTable" class="table table-info table-striped">
     <thead class="table-dark" style="color: white">
     <tr>
         <th>
-            ID
+            Id
         </th>
         <th>
             Title
@@ -35,7 +40,6 @@
         </th>
         <th></th>
     </tr>
-
     </thead>
     <tbody>
     @foreach (var item in Model.courseViewModel)

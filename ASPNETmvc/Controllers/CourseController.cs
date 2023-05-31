@@ -40,7 +40,6 @@ public class CourseController : Controller
             Console.WriteLine(e);
             ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Danger, message: "Can't show all course, error out!");
             return View();
-
             //throw;
         }
 

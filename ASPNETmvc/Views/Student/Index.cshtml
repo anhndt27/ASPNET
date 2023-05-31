@@ -19,25 +19,23 @@
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
-            Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            Find: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
             <input type="submit" value="Search" class="btn btn-default btn-sm" /> |
             <a asp-action="Index">Back to Full List</a>
         </p>
     </div>
 </form>
-<table id="myTable" class="table table-info table-striped ">
+<table id="" class="table table-info table-striped ">
     <thead class="table-dark" style="color: white">
     <tr>
         <th>
-            Id
+            <a asp-action="Index" asp-route-sortOrder="@ViewData["IdSortParm"]">Id</a>
         </th>
         <th>
             <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">Name</a>
-            @*@Html.DisplayNameFor(model => model.Name)*@
         </th>
         <th>
             <a asp-action="Index" asp-route-sortOrder="@ViewData["CodeSortParm"]">Code</a>
-            @*@Html.DisplayNameFor(model => model.Code)*@
         </th>
         <th>
             Course
@@ -89,11 +87,3 @@
    class="btn btn-sm btn-default @nextDisabled">
     Next
 </a>
-@section Scripts{
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-            $('#myTable').DataTable();
-        });
-</script>
-}

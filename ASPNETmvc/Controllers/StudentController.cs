@@ -23,7 +23,8 @@ public class StudentController : Controller
         {
             if (deleteFlag) ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Success, message: "Remove student success!");
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["IdSortParm"] = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+            ViewData["NameSortParm"] = sortOrder == "Name" ? "name_desc" : "Code";
             ViewData["CodeSortParm"] = sortOrder == "Code" ? "code_desc" : "Code";
             if (searchString != null)
             {

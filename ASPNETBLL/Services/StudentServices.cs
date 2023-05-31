@@ -5,6 +5,7 @@ using ASPNETDAL.Context;
 using ASPNETDAL.Entities;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace ASPNETBLL.Services;
 
@@ -49,6 +50,12 @@ public class StudentServices : IStudentServices
             }
             switch (sortOrder)
             {
+                case "id_desc":
+                    students = students.OrderByDescending(s => s.Id);
+                    break;
+                case "Name": 
+                    students = students.OrderBy(s => s.StudentCode);
+                    break;
                 case "name_desc":
                     students = students.OrderByDescending(s => s.StudentName);
                     break;
@@ -59,7 +66,7 @@ public class StudentServices : IStudentServices
                     students = students.OrderByDescending(s => s.StudentCode);
                     break;
                 default:
-                    students = students.OrderBy(s => s.StudentCode);
+                    students = students.OrderBy(s => s.Id);
                     break;
             }
             var listStudent = students.AsNoTracking();

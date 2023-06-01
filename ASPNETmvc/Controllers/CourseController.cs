@@ -71,7 +71,6 @@ public class CourseController : Controller
         }
         catch (Exception e)
         {
-            ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Danger, message: "Can't create new course, error out!");
             Console.WriteLine(e);
             throw;
         }
@@ -90,14 +89,13 @@ public class CourseController : Controller
                 {
                     ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Success, "Create Ok!");
                 }
-                else ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Danger, "Unknown error");
-                //return RedirectToAction(nameof(Index));
+                else ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Danger, $"Error");
             }
         }
         catch (Exception e)
         {
             ModelState.AddModelError("",
-                "Unable to save changes. Try again!");
+                $"Unable to save changes. Course is already exist!");
             Console.WriteLine(e);
         }
 
@@ -125,13 +123,12 @@ public class CourseController : Controller
                     ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Success, "Update Ok!");
                 }
                 else ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Danger, "Unknown error");
-                //return RedirectToAction(nameof(Index));
             }
         }
         catch (Exception e)
         {
             ModelState.AddModelError("",
-                "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                $"Unable to save changes. Course is already exist!");
             Console.WriteLine(e);
         }
 

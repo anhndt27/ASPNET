@@ -9,14 +9,19 @@ namespace MSTestBLL.ServicesTest.CourseTest;
 public class CourseServicseTest
 {
     private Mock<ICourseServices> _mockcourseServices;
-
-    public CourseServicseTest()
+    public ICourseServices _courseServices;
+    public CourseServicseTest(ICourseServices courseServices)
     {
-        //_courseServices = new CourseServices();
+        _courseServices = courseServices;
     }
     
     [TestInitialize]
     public void Initialize()
+    {
+        
+    }
+
+    public void TestGetListCourse()
     {
         
     }

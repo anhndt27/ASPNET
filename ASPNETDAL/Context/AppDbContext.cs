@@ -27,8 +27,16 @@ public partial class AppDbContext : DbContext
             .HasOne(e => e.Course)
             .WithMany(e => e.Enrollments)
             .HasForeignKey(e => e.CourseId);
+
+        builder.Entity<Course>()
+            .HasIndex(c => c.Title)
+            .IsUnique();
+
+        builder.Entity<Student>()
+            .HasIndex(c => c.StudentCode)
+            .IsUnique();
     }
-    
+
     public DbSet<Student> Students { get; set; }
     public DbSet<Enrollment> Enrollments { get; set; }
     public DbSet<Course> Courses { get; set; }

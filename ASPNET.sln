@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASPNETDAL", "ASPNETDAL\ASPN
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSTestBLL", "MSTestBLL\MSTestBLL.csproj", "{47BAD419-9640-400B-AEE8-E80B16F9D203}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NunitTest", "NunitTest\NunitTest.csproj", "{D5FF2925-DE13-400F-9EF2-B997842EF466}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{47BAD419-9640-400B-AEE8-E80B16F9D203}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47BAD419-9640-400B-AEE8-E80B16F9D203}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47BAD419-9640-400B-AEE8-E80B16F9D203}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5FF2925-DE13-400F-9EF2-B997842EF466}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5FF2925-DE13-400F-9EF2-B997842EF466}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5FF2925-DE13-400F-9EF2-B997842EF466}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5FF2925-DE13-400F-9EF2-B997842EF466}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

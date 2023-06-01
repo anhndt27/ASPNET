@@ -4,6 +4,7 @@ using ASPNETBLL.Interface;
 using ASPNETmvc.Helper;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 
 namespace ASPNETmvc.Controllers;
 
@@ -15,9 +16,11 @@ public class StudentController : Controller
     {
         _studentService = studentService;
     }
+
     // GET
     //[HttpGet("/Student/Index")]
-    public async Task<IActionResult> Index(string sortOrder,string searchString,string currentFilter,int? pageNumber, bool deleteFlag = false)
+    public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber,
+        bool deleteFlag = false)
     {
         try
         {
@@ -34,11 +37,12 @@ public class StudentController : Controller
             {
                 searchString = currentFilter;
             }
+
             ViewData["CurrentFilter"] = searchString;
             //var listService = new ListStudentServices(_context);
-            var res = await _studentService.GetListAsync(sortOrder,searchString,currentFilter,pageNumber);
+            var res = await _studentService.GetListAsync(sortOrder, searchString, currentFilter, pageNumber);
             int pageSize = 5;
-            var resault =await Paging<StudentDto>.CreateAsync(res,pageNumber ?? 1, pageSize);
+            var resault = await Paging<StudentDto>.CreateAsync(res, pageNumber ?? 1, pageSize);
             return View(resault);
         }
         catch (Exception e)
@@ -74,12 +78,12 @@ public class StudentController : Controller
                 ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Success, "Create Ok!");
             }
             else ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Danger, "Unknown error");
-            //return RedirectToAction(nameof(Index));
         }
-        catch
+        catch (Exception ex)
         {
             ModelState.AddModelError("",
-                "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                $"Unable to save changes. Student Code is already exist!");
+            Console.WriteLine(ex);
         }
 
         return View(entity);
@@ -109,7 +113,7 @@ public class StudentController : Controller
         catch (Exception e)
         {
             ModelState.AddModelError("",
-                "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                $"Unable to save changes. Student Code is already exist!");
             Console.WriteLine(e);
         }
 

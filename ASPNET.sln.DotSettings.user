@@ -1,2 +1,8 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9ac00515_002D7fdc_002D4e70_002Da170_002Dc3c41919e6a4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from TestCourse.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;ProjectFile&gt;D5FF2925-DE13-400F-9EF2-B997842EF466/d:TestServices/d:TestCourseSevices/f:TestUpdateCourse.cs&lt;/ProjectFile&gt;&#xD;
+    &lt;ProjectFile&gt;D5FF2925-DE13-400F-9EF2-B997842EF466/d:TestServices/d:TestStudentServices/f:TestCreateServices.cs&lt;/ProjectFile&gt;&#xD;
+  &lt;/Or&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=ppsettings/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

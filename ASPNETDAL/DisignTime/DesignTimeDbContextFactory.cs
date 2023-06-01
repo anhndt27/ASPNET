@@ -16,9 +16,11 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<Context.Ap
                 .AddJsonFile("appsettings.json");
 
         IConfigurationRoot config = builder.Build();
+        String connectionString = config.GetConnectionString("DbContextConnection");
         Console.WriteLine($"DesignTimeDbContextFactory: using base path = {path}");
         DbContextOptionsBuilder<AppDbContext> dbContextOptionsBuilder =
             new DbContextOptionsBuilder<AppDbContext>();
+        AppDbContext.AddBaseOptions(dbContextOptionsBuilder, connectionString);
         return new AppDbContext(dbContextOptionsBuilder.Options);
     }
 }

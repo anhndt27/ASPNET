@@ -38,12 +38,7 @@ public class CourseServices : ICourseServices
             throw;
         }
     }
-
-    /// <summary>
-    /// Get All Course and student
-    /// </summary>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
+    
     public Task<IEnumerable<CourseDto>> GetListCourseStudentAsync()
     {
         try
@@ -71,7 +66,7 @@ public class CourseServices : ICourseServices
             throw;
         }
     }
-
+    
     public async Task<bool> UpdateAsync(CourseRequestDto entity)
     {
         try

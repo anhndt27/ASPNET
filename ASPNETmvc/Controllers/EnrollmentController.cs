@@ -22,22 +22,29 @@ public class EnrollmentController : Controller
         _mapper = mapper;
         _courseServices = courseServices;
     }
-    public async Task<IActionResult> AddNewStudent()
+
+    public async Task<IActionResult> AddNewStudent([FromRoute] int id)
     {
+        ViewBag.getCourseId = id;
         return View();
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> AddNewStudent([FromRoute] int id, int studentId)
+    public async Task<IActionResult> AddNewStudent([FromRoute] int id, string studentId)
     {
         try
         {
-            if (await _enrollmentService.AddStudentToCourse(id, studentId))
+            int[] intArray = studentId.Split(new char[] { ',', ' ' , ';'}, StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+            
+            foreach (var stuId in intArray)
             {
-                ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Success, "Add new student to course!");
+                if (await _enrollmentService.AddStudentToCourse(id, stuId))
+                {
+                    ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Success, $"Add new student has id = {studentId} to course!");
+                }
+                else ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Danger, "Unknown error");
             }
-            else ViewBag.Alert = AlertsHelper.ShowAlert(Alerts.Danger, "Unknown error");
         }
         catch
         {

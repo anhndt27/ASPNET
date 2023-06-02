@@ -38,15 +38,15 @@ public class StudentServices : IStudentServices
         
     }
 
-    public Task<IEnumerable<StudentDto>> GetListAsync(string sortOrder,string searchString,string currentFilter,int? pageNumber)
+    public async Task<IEnumerable<StudentDto>> GetListAsync(string sortOrder,string searchString,string currentFilter,int? pageNumber)
     {
         try
         {
-            var students = from s in _context.Students select s;
+            var students = from s in _context.Students.AsNoTracking().MapListStudentDto() select s;
             if (!String.IsNullOrEmpty(searchString))
             {
-                students = students.Where(s => s.StudentName.Contains(searchString)
-                                               || s.StudentCode.Contains(searchString));
+                students = students.Where(s => s.Name.Contains(searchString)
+                                               || s.Code.Contains(searchString));
             }
             switch (sortOrder)
             {
@@ -54,25 +54,24 @@ public class StudentServices : IStudentServices
                     students = students.OrderByDescending(s => s.Id);
                     break;
                 case "Name": 
-                    students = students.OrderBy(s => s.StudentCode);
+                    students = students.OrderBy(s => s.Code);
                     break;
                 case "name_desc":
-                    students = students.OrderByDescending(s => s.StudentName);
+                    students = students.OrderByDescending(s => s.Name);
                     break;
                 case "Code":
-                    students = students.OrderBy(s => s.StudentCode);
+                    students = students.OrderBy(s => s.Code);
                     break;
                 case "code_desc":
-                    students = students.OrderByDescending(s => s.StudentCode);
+                    students = students.OrderByDescending(s => s.Code);
                     break;
                 default:
                     students = students.OrderBy(s => s.Id);
                     break;
             }
-            var listStudent = students.AsNoTracking();
-            var res = _mapper.Map<IEnumerable<StudentDto>>(listStudent);
-           
-            return Task.FromResult(res);
+            /*var listStudent = students.AsNoTracking();
+            var res = _mapper.Map<IEnumerable<StudentDto>>(listStudent);*/
+            return students;
         }
         catch (Exception e)
         {

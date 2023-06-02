@@ -5,3 +5,7 @@
   }
   
   ConnectionString in appsettings.json (ASPNETDAL & ASPNETmvc)
+
+***
+ List Course using datatable - jquery
+ List Student using sort, filter, search in services layer

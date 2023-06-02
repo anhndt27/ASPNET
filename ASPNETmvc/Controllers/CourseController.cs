@@ -3,10 +3,12 @@ using ASPNETBLL.DTOs.EnrollmentQueryDto;
 using ASPNETBLL.Interface;
 using ASPNETmvc.Helper;
 using ASPNETmvc.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASPNETmvc.Controllers;
 
+[Authorize]
 public class CourseController : Controller
 {
     // GET

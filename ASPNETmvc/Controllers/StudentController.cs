@@ -3,11 +3,13 @@ using ASPNETBLL.DTOs.StudentQueryDto;
 using ASPNETBLL.Interface;
 using ASPNETmvc.Helper;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 
 namespace ASPNETmvc.Controllers;
 
+[Authorize]
 public class StudentController : Controller
 {
     public readonly IStudentServices _studentService;

@@ -2,10 +2,12 @@ using ASPNETBLL.Interface;
 using ASPNETmvc.Helper;
 using ASPNETmvc.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASPNETmvc.Controllers;
 
+[Authorize]
 public class EnrollmentController : Controller
 {
     public readonly IStudentServices _studentService;
@@ -25,7 +27,8 @@ public class EnrollmentController : Controller
 
     public async Task<IActionResult> AddNewStudent([FromRoute] int id)
     {
-        ViewBag.getCourseId = id;
+        var temp = _courseServices.FindById(id);
+        ViewBag.getTitleCourse = temp.Result.Title;
         return View();
     }
 

@@ -65,6 +65,7 @@ body {
 .shadow-custom {
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .25), 0 3px 10px 5px rgba(0, 0, 0, 0.05) !important;
 }
+/*
 
 .aos-animate{
     animation: zoom-in-zoom-out 2s ease-out infinite;
@@ -75,9 +76,9 @@ body {
         transform: scale(1, 1);
     }
     50% {
-        transform: scale(1.5, 1.5);
+        transform: scale(1, 1);
     }
     100% {
         transform: scale(1, 1);
     }
-}
+}*/

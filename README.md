@@ -4,4 +4,4 @@
     "DbContextConnection": "Server=localhost;Database=aspnet;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True"
   }
   
-  
+  ConnectionString in appsettings.json (ASPNETDAL & ASPNETmvc)
